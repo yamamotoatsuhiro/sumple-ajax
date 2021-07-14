@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<style>
+#base {
+    padding: 20px;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+</style>
+
+<script>
+$(function(){
+
+    $("#btn").on( "click", function(){
+
+        $.ajax({
+            url: "form-action-json-mysql-list.php",
+            type: "GET",
+            // data: formData,
+            cache: false
+        })
+        .done(function( data, textStatus ){
+            console.log( "status:" + textStatus );
+            console.log( "data:" + JSON.stringify(data, null, "	") );
+
+            $("#tbl").html("");
+            
+            var row;
+            for( i = 0; i < data.row.length; i++ ) {
+
+                row = $("<tr></tr>");
+                // 一つ一つソースに書く場合( メンテナンス性が高い )
+                $("<td></td>")
+                    .text(data.row[i]["社員コード"])
+                    .appendTo(row)
+                ;
+                $("<td></td>")
+                    .text(data.row[i]["氏名"])
+                    .appendTo(row)
+                ;
+
+                row.appendTo( $("#tbl") );
+
+            }
+
+            for( i = 0; i < data.row.length; i++ ) {
+
+                row = $("<tr></tr>");
+                // 一括実行 : オブジェクトの内容を順次取得 ( ソースが短い )
+                $.each( data.row[i], function(prop, value){
+                    $("<td></td>")
+                        .text(value)
+                        .appendTo(row)
+                    ;
+                });
+
+                row.appendTo( $("#tbl") );
+
+            }
+
+        })
+        .fail(function(jqXHR, textStatus, errorThrown ){
+            console.log( "status:" + textStatus );
+            console.log( "errorThrown:" + errorThrown );
+        })
+        .always(function() {
+
+        })
+        ;
+
+    });
+
+    var path = _helper.get_title_path();
+    $("h3").text( path );
+    document.title = path;
+});
+
+window._helper = {
+    get_title_path : function(){
+        var path = location.pathname;
+        path = path.split("/");
+        path = path[path.length-3]+"/"+path[path.length-2];
+        return path;
+    }
+}
+</script>
+
+</head>
+<body>
+<h3 class="alert alert-primary"></h3>
+<div id="base">
+
+    <input id="btn" name="btn" type="button" value="実行">
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>社員コード</th>
+                    <th>氏名</th>
+                    <th>フリガナ</th>
+                    <th>所属</th>
+                    <th>性別</th>
+                    <th>給与</th>
+                    <th>手当</th>
+                    <th>管理者</th>
+                    <th>生年月日</th>
+                </tr>
+            </thead>
+            <tbody id="tbl">
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
