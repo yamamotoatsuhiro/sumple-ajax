@@ -3,22 +3,22 @@
 
 ajaxのgetを行うためのテンプレート
 ## jQuery側のjsonオブジェクトの準備
-````javascript
+````
 formData ={};
 ````
 {}の空白はjsonのオブジェクト
-````javascript
+````
 formData["param1"] = "テスト";
 ````
 formData のプロパティは formData["プロパティ文字列"] に値をセットして作成される
 
 formData のプロパティは formData.プロパティ文字列 と書く事もできます
 
-````javascript
+````
 formData.param1 = "テスト";
 ````
 ## jQuery 側からサーバへデータを送る
-````javascript
+````
 data: formData
 {
 	"param1": "テスト"
@@ -27,3 +27,7 @@ data: formData
 http://localhost/app/form-action-json.php?param1=%E3%83%86%E3%82%B9%E3%83%88&_=1626243759099
 と言うフォーマットに jQuery に加工されてサーバの PHP が呼び出されます
 ## PHP でデータを受け取る
+QuertyString と呼ばれる ? 以降の文字列が $_GET にセットされて PHP に入る
+````
+param1=%E3%83%86%E3%82%B9%E3%83%88&_=1626243759099
+````
