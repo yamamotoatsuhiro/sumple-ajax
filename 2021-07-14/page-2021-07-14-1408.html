@@ -16,10 +16,10 @@ $(function(){
     $("#btn").on( "click", function(){
 
         formData = {};
-        formData["param1"] = "テスト";
+        formData["param1"] = "文字列";
 
         $.ajax({
-            url: "http://localhost/app/form-action-json.php",
+            url: "form-action-json.php",
             type: "GET",
             data: formData,
             cache: false
@@ -28,7 +28,7 @@ $(function(){
             console.log( "status:" + textStatus );
             console.log( "data:" + JSON.stringify(data, null, "	") );
 
-            $("#content").text(JSON.stringify(data, null, "	") )
+            $("#content").text( JSON.stringify(data, null, "	") );
 
         })
         .fail(function(jqXHR, textStatus, errorThrown ){
@@ -46,7 +46,8 @@ $(function(){
 </script>
 
 <input id="btn" name="btn" type="button" value="実行">
-<div id="content" style="white-space:pre;">
+<div id="content" style="white-space:pre">
 </div>
+
 </body>
 </html>
